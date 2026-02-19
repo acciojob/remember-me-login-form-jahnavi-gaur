@@ -1,46 +1,36 @@
-let userNameBox = document.querySelector('#username');
-let passWordBox = document.querySelector('#password');
-let checkBox = document.querySelector('#checkbox');
 let form = document.querySelector('form');
+let usernameInput = document.querySelector('#username');
+let passwordInput = document.querySelector('#password');
+let checkbox = document.querySelector('#checkbox');
 let existingBtn = document.querySelector('#existing');
 
-// Check on page load if credentials exist
-let savedData = JSON.parse(localStorage.getItem('credentials'));
-
-if (savedData) {
-  existingBtn.style.display = 'block';
+// Show existing button if saved
+if (localStorage.getItem("username") && localStorage.getItem("password")) {
+  existingBtn.style.display = "block";
 }
 
-// Handle form submit
-form.addEventListener('submit', function (e) {
-  e.preventDefault(); // prevent page reload
+form.addEventListener("submit", function(e) {
+  e.preventDefault();
 
-  let username = userNameBox.value;
-  let password = passWordBox.value;
+  let username = usernameInput.value;
+  let password = passwordInput.value;
 
   alert(`Logged in as ${username}`);
 
-  if (checkBox.checked) {
-    // Save credentials
-    localStorage.setItem(
-      'credentials',
-      JSON.stringify({ username, password })
-    );
-    existingBtn.style.display = 'block';
+  if (checkbox.checked) {
+    localStorage.setItem("username", username);
+    localStorage.setItem("password", password);
+    existingBtn.style.display = "block";
   } else {
-    // Remove credentials
-    localStorage.removeItem('credentials');
-    existingBtn.style.display = 'none';
+    localStorage.removeItem("username");
+    localStorage.removeItem("password");
+    existingBtn.style.display = "none";
   }
-	userNameBox.value = '';
-	passWordBox.value = '';
 });
 
-// Existing user login
-existingBtn.addEventListener('click', function () {
-  let savedData = JSON.parse(localStorage.getItem('credentials'));
-
-  if (savedData) {
-    alert(`Logged in as ${savedData.username}`);
+existingBtn.addEventListener("click", function() {
+  let savedUsername = localStorage.getItem("username");
+  if (savedUsername) {
+    alert(`Logged in as ${savedUsername}`);
   }
 });
